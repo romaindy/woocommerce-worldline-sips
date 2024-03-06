@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Theme Coding Standards">
+
+    <file>.</file>
+
+    <!-- Show progress and sniff codes in all reports. -->
+    <arg value="ps"/>
+
+    <!-- Strip the filepaths down to the relevant bit. -->
+    <arg name="basepath" value="./"/>
+    <arg name="colors"/>
+
+    <!-- Check PHP files only. JavaScript and CSS files are checked separately using the @wordpress/scripts package. -->
+    <arg name="extensions" value="php"/>
+
+    <!-- Check up to 8 files simultaneously. -->
+    <arg name="parallel" value="8"/>
+
+    <!-- Check for PHP cross-version compatibility. -->
+    <config name="testVersion" value="8.1"/>
+    <rule ref="PHPCompatibilityWP"/>
+
+    <!-- Exclude the Node Modules directory. -->
+    <exclude-pattern>/node_modules/*</exclude-pattern>
+
+    <!-- Exclude Vendor directory -->
+    <exclude-pattern>/vendor/*</exclude-pattern>
+
+    <!-- Exclude minified Javascript files. -->
+    <exclude-pattern>*.min.js</exclude-pattern>
+
+    <rule ref="WordPress-Extra"/>
+    <rule ref="WordPress-Docs"/>
+
+    <config name="minimum_supported_wp_version" value="5.5"/>
+
+    <!-- Verify that everything in the global namespace is prefixed with a theme specific prefix.
+		 Multiple valid prefixes can be provided as a comma-delimited list. -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array" value="wws"/>
+        </properties>
+    </rule>
+</ruleset>
