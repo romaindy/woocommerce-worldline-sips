@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: WooCommerce Worldline Sips\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-"
 "worldline-sips\n"
-"POT-Creation-Date: 2022-11-15 14:00+0100\n"
-"PO-Revision-Date: 2022-11-15 14:01+0100\n"
+"POT-Creation-Date: 2024-04-08 20:48+0200\n"
+"PO-Revision-Date: 2024-04-08 20:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -23,11 +23,11 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-1: dist\n"
 "X-Poedit-SearchPathExcluded-2: vendor\n"
 
-#: class/WC_Worldline_SIPS.php:11
+#: class/class-wws-worldline-sips.php:22
 msgid "Worldline SIPS 2.0"
 msgstr "Worldline SIPS 2.0"
 
-#: class/WC_Worldline_SIPS.php:12
+#: class/class-wws-worldline-sips.php:23
 msgid ""
 "Allows Worldline SIPS 2.0 payment (Sherlock, Merc@net, Sogenactif, Scellius "
 "Net, etc.)."
@@ -35,81 +35,85 @@ msgstr ""
 "Permet le paiement Worldline SIPS 2.0 (Sherlock, Merc@net, Sogenactif, "
 "Scellius Net, etc.)."
 
-#: class/WC_Worldline_SIPS.php:42
+#: class/class-wws-worldline-sips.php:24
+msgid "Proceed to the payment"
+msgstr "Procéder au paiement"
+
+#: class/class-wws-worldline-sips.php:52
 msgid "Enable/Disable"
 msgstr "Activer/Désactiver"
 
-#: class/WC_Worldline_SIPS.php:44
+#: class/class-wws-worldline-sips.php:54
 msgid "Enable Worldline SIPS 2.0"
 msgstr "Activer Worldline SIPS 2.0"
 
-#: class/WC_Worldline_SIPS.php:49
+#: class/class-wws-worldline-sips.php:58
 msgid "Title"
 msgstr "Titre"
 
-#: class/WC_Worldline_SIPS.php:51
+#: class/class-wws-worldline-sips.php:60
 msgid ""
 "This controls the title for the payment method the customer sees during "
 "checkout."
 msgstr ""
 "Contrôle le titre du mode de paiement que le client voit lors du paiement."
 
-#: class/WC_Worldline_SIPS.php:52
+#: class/class-wws-worldline-sips.php:61
 msgid "Credit card"
 msgstr "Carte de crédit"
 
-#: class/WC_Worldline_SIPS.php:56
+#: class/class-wws-worldline-sips.php:65
 msgid "Icon image URL"
 msgstr "URL de l’icône de paiement"
 
-#: class/WC_Worldline_SIPS.php:58
+#: class/class-wws-worldline-sips.php:67
 msgid "Add an icon next to the payment method on checkout."
 msgstr ""
 "Ajoute une icône à côté du mode de paiement lors de la validation de la "
 "commande."
 
-#: class/WC_Worldline_SIPS.php:63
+#: class/class-wws-worldline-sips.php:72
 msgid "Description"
 msgstr "Description"
 
-#: class/WC_Worldline_SIPS.php:65
+#: class/class-wws-worldline-sips.php:74
 msgid "Payment method description that the customer will see on your checkout."
 msgstr ""
 "Description du mode de paiement que le client verra lors de votre paiement."
 
-#: class/WC_Worldline_SIPS.php:66
+#: class/class-wws-worldline-sips.php:75
 msgid "Pay with your credit card."
 msgstr "Payer avec votre carte bancaire."
 
-#: class/WC_Worldline_SIPS.php:70
+#: class/class-wws-worldline-sips.php:79
 msgid "Merchant ID"
 msgstr "ID Marchant"
 
-#: class/WC_Worldline_SIPS.php:72
+#: class/class-wws-worldline-sips.php:81
 msgid "Your payment merchant ID provided by WorldLine."
 msgstr "Votre ID de marchand fourni par WorldLine."
 
-#: class/WC_Worldline_SIPS.php:76
+#: class/class-wws-worldline-sips.php:85
 msgid "Secret key"
 msgstr "Clé secrète"
 
-#: class/WC_Worldline_SIPS.php:78
+#: class/class-wws-worldline-sips.php:87
 msgid "Your payment secret key provided by WorldLine."
 msgstr "Votre clé secrète de paiement fournie par WorldLine."
 
-#: class/WC_Worldline_SIPS.php:82
+#: class/class-wws-worldline-sips.php:91
 msgid "Key version"
 msgstr "Version de la clé"
 
-#: class/WC_Worldline_SIPS.php:86
+#: class/class-wws-worldline-sips.php:95
 msgid "Environment"
 msgstr "Environnement"
 
-#: class/WC_Worldline_SIPS.php:95
+#: class/class-wws-worldline-sips.php:104
 msgid "Template name"
 msgstr "Nom du modèle"
 
-#: class/WC_Worldline_SIPS.php:97
+#: class/class-wws-worldline-sips.php:106
 msgid ""
 "Name of your template if you have customized your pages on WorldLine "
 "interface."
@@ -117,31 +121,31 @@ msgstr ""
 "Nom de votre modèle si vous avez personnalisé vos pages sur l’interface "
 "WorldLine."
 
-#: class/WC_Worldline_SIPS.php:102
+#: class/class-wws-worldline-sips.php:111
 msgid "Iframe width"
 msgstr "Largeur de l’iframe"
 
-#: class/WC_Worldline_SIPS.php:104
+#: class/class-wws-worldline-sips.php:113
 msgid "Width (in px) of the iframe where the payment will be displayed."
 msgstr "Largeur (en px) de l’iframe où le paiement sera affiché."
 
-#: class/WC_Worldline_SIPS.php:109
+#: class/class-wws-worldline-sips.php:118
 msgid "Iframe height"
 msgstr "Hauteur de l’iframe"
 
-#: class/WC_Worldline_SIPS.php:111
+#: class/class-wws-worldline-sips.php:120
 msgid "Height (in px) of the iframe where the payment will be displayed."
 msgstr "Hauteur (en px) de l’iframe où sera affiché le paiement."
 
-#: class/WC_Worldline_SIPS.php:116
+#: class/class-wws-worldline-sips.php:125
 msgid "Transactions Reference ID"
 msgstr "ID de transaction"
 
-#: class/WC_Worldline_SIPS.php:118
+#: class/class-wws-worldline-sips.php:127
 msgid "Is your transactions reference generated automatically?"
 msgstr "Votre référence de transactions est-elle générée automatiquement ?"
 
-#: class/WC_Worldline_SIPS.php:119
+#: class/class-wws-worldline-sips.php:128
 msgid ""
 "This settings is available on your Worldline interface. If you are unsure, "
 "leave this box unchecked."
@@ -149,65 +153,58 @@ msgstr ""
 "Ce réglage est disponible sur votre interface Worldline. Si vous n’êtes pas "
 "sûr, laissez cette case décochée."
 
-#: class/WC_Worldline_SIPS.php:147
-msgid "Place order"
-msgstr "Commander"
-
-#: payment-iframe.php:21
-msgid "Worldline SIPS for WooCommerce hasn't been configured yet."
-msgstr "Worldline SIPS pour WooCommerce n'a pas encore été configuré."
-
-#: payment-iframe.php:131 payment-iframe.php:139
-msgid ""
-"Error: an error occurred. Please check your Merchant ID, your private key "
-"and your key version."
-msgstr ""
-"Erreur : une erreur s'est produite. Veuillez vérifier votre ID Marchand, "
-"votre clé privée et la version de votre clé."
-
-#: payment-iframe.php:134 payment-iframe.php:142
-msgid "Technical details:"
-msgstr "Détails techniques :"
-
-#: payment-iframe.php:155
-msgid "Click here to continue"
-msgstr "Cliquez ici pour continuer"
-
-#: woocommerce-worldline-sips.php:70
+#: woocommerce-worldline-sips.php:76
 msgid "Configure"
 msgstr "Configurer"
 
-#: woocommerce-worldline-sips.php:98
-msgid "Renew my licence"
-msgstr "Renouveler ma licence"
-
-#: woocommerce-worldline-sips.php:105
-msgid "Your licence key"
-msgstr "Votre clé de licence"
-
-#: woocommerce-worldline-sips.php:120
+#: woocommerce-worldline-sips.php:136
 msgid "Thank you. Your licence has been updated."
 msgstr "Merci. Votre licence a été mise à jour."
 
-#: woocommerce-worldline-sips.php:122
+#: woocommerce-worldline-sips.php:138
 msgid "Licence not valid."
 msgstr "Licence non valide."
 
-#: woocommerce-worldline-sips.php:140
+#: woocommerce-worldline-sips.php:158
 msgid "Licence key for Worldline SIPS for WooCommerce is missing."
 msgstr "La clé de licence pour Worldline SIPS for WooCommerce est manquante."
 
-#: woocommerce-worldline-sips.php:146
+#: woocommerce-worldline-sips.php:166
 msgid "Your licence key for Worldline SIPS for WooCommerce has expired."
 msgstr "Votre clé de licence pour Worldline SIPS for WooCommerce a expiré."
 
-#: woocommerce-worldline-sips.php:189
+#: woocommerce-worldline-sips.php:224
 msgid ""
 "Worldline SIPS for WooCommerce is outdated. Please download the new version "
 "here:"
 msgstr ""
 "Worldline SIPS pour WooCommerce a besoin d’être mis à jour. Veuillez "
 "télécharger la nouvelle version ici :"
+
+#~ msgid "Place order"
+#~ msgstr "Commander"
+
+#~ msgid "Worldline SIPS for WooCommerce hasn't been configured yet."
+#~ msgstr "Worldline SIPS pour WooCommerce n'a pas encore été configuré."
+
+#~ msgid ""
+#~ "Error: an error occurred. Please check your Merchant ID, your private key "
+#~ "and your key version."
+#~ msgstr ""
+#~ "Erreur : une erreur s'est produite. Veuillez vérifier votre ID Marchand, "
+#~ "votre clé privée et la version de votre clé."
+
+#~ msgid "Technical details:"
+#~ msgstr "Détails techniques :"
+
+#~ msgid "Click here to continue"
+#~ msgstr "Cliquez ici pour continuer"
+
+#~ msgid "Renew my licence"
+#~ msgstr "Renouveler ma licence"
+
+#~ msgid "Your licence key"
+#~ msgstr "Votre clé de licence"
 
 #~ msgid "Display cards icons"
 #~ msgstr "Afficher les icônes de cartes"

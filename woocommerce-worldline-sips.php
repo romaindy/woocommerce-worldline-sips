@@ -87,7 +87,7 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'wws_plugin_li
  * @return void
  */
 function wws_offline_gateway_init() {
-	require 'class/class-wc-worldline-sips.php';
+	require 'class/class-wws-worldline-sips.php';
 }
 
 add_action( 'plugins_loaded', 'wws_offline_gateway_init', 11 );

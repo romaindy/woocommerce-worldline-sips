@@ -21,6 +21,7 @@ class WWS_Worldline_SIPS extends WC_Payment_Gateway {
 		$this->has_fields         = true;
 		$this->method_title       = __( 'Worldline SIPS 2.0', 'wws' );
 		$this->method_description = __( 'Allows Worldline SIPS 2.0 payment (Sherlock, Merc@net, Sogenactif, Scellius Net, etc.).', 'wws' );
+		$this->order_button_text  = __( 'Proceed to the payment', 'wws' );
 
 		// Load the settings.
 		$this->init_form_fields();
@@ -34,9 +35,6 @@ class WWS_Worldline_SIPS extends WC_Payment_Gateway {
 
 		// Actions.
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-
-		// Filters.
-		add_filter( 'woocommerce_order_button_html', array( $this, 'remove_place_order_button_for_specific_payments' ) );
 	}
 
 
@@ -149,20 +147,6 @@ class WWS_Worldline_SIPS extends WC_Payment_Gateway {
 	}
 
 	/**
-	 * Remove the default WooCommerce button "Pay".
-	 *
-	 * @param string $button HTML button.
-	 *
-	 * @return string
-	 */
-	public function remove_place_order_button_for_specific_payments( $button ) {
-		$wws_order_button_text = apply_filters( 'woocommerce_order_button_text', __( 'Place order', 'woocommerce' ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-		$wws_style             = '';
-		$button                = '<button type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr( $wws_order_button_text ) . '" data-value="' . esc_attr( $wws_order_button_text ) . '" style="' . $wws_style . '">' . esc_html( $wws_order_button_text ) . '</button>';
-		return $button;
-	}
-
-	/**
 	 * Process the payment and return the result.
 	 *
 	 * @param int $order_id Order ID.
@@ -172,7 +156,7 @@ class WWS_Worldline_SIPS extends WC_Payment_Gateway {
 	public function process_payment( $order_id ) {
 		return array(
 			'result'   => 'success',
-			'redirect' => '#payment?timestamp=' . time(),
+			'redirect' => '#payment?order=' . $order_id,
 		);
 	}
 }

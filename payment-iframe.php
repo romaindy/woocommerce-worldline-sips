@@ -3,7 +3,7 @@
  * Payment iFrame.
  *
  * @package WWS
-
+ *
  * phpcs:disable WordPress.Security.NonceVerification.Missing
  */
 
@@ -27,8 +27,11 @@ if ( ! empty( $wws_order_id ) ) {
 
 if ( empty( $wws_options ) ) {
 	esc_html_e( 'Worldline SIPS for WooCommerce hasn\'t been configured yet.', 'wws' );
-} elseif ( ! empty( $_POST['Data'] ) ) {
+	exit;
+}
 
+// If the payment has been made.
+if ( ! empty( $_POST['Data'] ) ) {
 	$wws_raw_data = explode( '|', $_POST['Data'] );
 	$wws_data     = array();
 	foreach ( $wws_raw_data as $wws_element ) {
@@ -47,11 +50,10 @@ if ( empty( $wws_options ) ) {
 		$wws_order->save();
 
 		// Reduce stock levels.
-		wc_reduce_stock_levels( $wws_order_id );
+		wc_reduce_stock_levels( $wws_order->get_id() );
 
 		// Remove cart.
 		WC()->cart->empty_cart();
-
 		?>
 		<script>
 			(function () {
@@ -120,25 +122,29 @@ if ( empty( $wws_options ) ) {
 			<form method="POST"
 					action="<?php echo esc_attr( $wws_initialization_response->getRedirectionUrl() ); ?>"
 					id="worldline-sips-form">
-				<input type="hidden" name="redirectionVersion"
+				<input type="hidden"
+						name="redirectionVersion"
 						value="<?php echo esc_attr( $wws_initialization_response->getRedirectionVersion() ); ?>">
-				<input type="hidden" name="redirectionData"
+				<input type="hidden"
+						name="redirectionData"
 						value="<?php echo esc_attr( $wws_initialization_response->getRedirectionData() ); ?>">
-				<input type="submit" value="Continue" class="button" style="visibility: hidden;">
+				<input type="submit"
+						value="Continue"
+						class="button"
+						style="visibility: hidden;">
 			</form>
 			<script>
 				(function () {
 					// Submit Worldline information and unblock UI.
 					jQuery('#worldline-sips-form').submit();
-					window.parent.jQuery('#place_order').hide();
-					window.parent.jQuery('#worldline-sips-woocommerce-iframe').show();
-					window.parent.jQuery('form.checkout').removeClass('processing').unblock();
-					window.parent.document.getElementById('worldline-sips-woocommerce-iframe').setAttribute('height', '<?php echo esc_attr( $wws_options['iframe_height'] ?? 530 ); ?>');
 				})();
 			</script>
 			<?php
 		} else {
-			esc_html_e( 'Error: an error occurred. Please check your Merchant ID, your private key and your key version.', 'wws' );
+			esc_html_e(
+				'Error: an error occurred. Please check your Merchant ID, your private key and your key version.',
+				'wws'
+			);
 			?>
 			<br/>
 			<strong><?php esc_html_e( 'Technical details:', 'wws' ); ?></strong><br/>
@@ -146,19 +152,24 @@ if ( empty( $wws_options ) ) {
 			echo esc_html( $wws_initialization_response->getRedirectionStatusMessage() );
 		}
 	} catch ( Exception $error ) {
-		esc_html_e( 'Error: an error occurred. Please check your Merchant ID, your private key and your key version.', 'wws' );
+		esc_html_e(
+			'Error: an error occurred. Please check your Merchant ID, your private key and your key version.',
+			'wws'
+		);
 		?>
 		<br/>
 		<strong><?php esc_html_e( 'Technical details:', 'wws' ); ?></strong><br/>
 		<?php
 		echo esc_html( $error->getMessage() );
 	}
+	?>
+	<?php
 } else {
 	?>
 	<script>
 		(function () {
 			window.parent.onhashchange = function () {
-				window.location.reload();
+				// window.location.reload();
 			};
 		})();
 	</script>
