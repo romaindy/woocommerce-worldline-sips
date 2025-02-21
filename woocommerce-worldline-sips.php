@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce Worldline Sips
  * Plugin URI: https://www.worldline-sips-woocommerce.com/
  * Description: Passerelle de paiement pour Worldline Sips 2.0 (Sherlock, Mercanet, Sogenactif, Scellius Net).
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: 21 Pixels
  * Author URI: https://www.21pixels.studio/
  *
@@ -16,11 +16,15 @@ defined( 'ABSPATH' ) || exit;
 
 // This plugin needs WooCommerce to work.
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
+if ( ! in_array(
+	'woocommerce/woocommerce.php',
+	apply_filters( 'active_plugins', get_option( 'active_plugins' ) ),
+	true
+) ) {
 	die;
 }
 
-define( 'WWS_VERSION', '1.1.0' );
+define( 'WWS_VERSION', '1.1.1' );
 define( 'WWS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WWS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WWS_OFFICIAL_WEBSITE', 'https://www.worldline-sips-woocommerce.com/' );
@@ -46,17 +50,19 @@ function wws_localisation() {
 	load_plugin_textdomain( 'wws', false, dirname( plugin_basename( __FILE__ ) ) . '/assets/translations/' );
 }
 
-add_action( 'plugins_loaded', 'wws_localisation', 10, 0 );
+add_action( 'init', 'wws_localisation', 10, 0 );
 
 
 /**
  * Add a new WooCommerce Payment Gateway.
  *
  * @param array $gateways Array of WooCommerce gateways.
+ *
  * @return array
  */
 function wws_add_to_gateways( $gateways ) {
 	$gateways[] = 'WWS_Worldline_SIPS';
+
 	return $gateways;
 }
 
@@ -73,7 +79,10 @@ add_filter( 'woocommerce_payment_gateways', 'wws_add_to_gateways' );
 function wws_plugin_links( $links ) {
 
 	$plugin_links = array(
-		'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wws' ) . '">' . __( 'Configure', 'wws' ) . '</a>',
+		'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wws' ) . '">' . __(
+			'Configure',
+			'wws'
+		) . '</a>',
 	);
 
 	return array_merge( $plugin_links, $links );
@@ -107,15 +116,27 @@ function wws_display_notice( $notice, $type = 'error', $display_form = true ) {
 		<p>
 			<?php echo esc_html( $notice ); ?>
 			<?php if ( $display_form ) : ?>
-				<a href="<?php echo esc_attr( WWS_OFFICIAL_WEBSITE ); ?>produit/renouvellement-de-licence/"><?php esc_html_e( 'Renew my licence', 'wws' ); ?></a>
+				<a href="<?php echo esc_attr( WWS_OFFICIAL_WEBSITE ); ?>produit/renouvellement-de-licence/">
+									<?php
+									esc_html_e(
+										'Renew my licence',
+										'wws'
+									);
+									?>
+						</a>
 			<?php endif; ?>
 		</p>
 
 		<?php if ( $display_form ) : ?>
-			<form method="post" action="#">
+			<form method="post"
+					action="#">
 				<p>
-					<input type="text" name="wws_licence" placeholder="<?php esc_attr_e( 'Your licence key', 'wws' ); ?>" aria-label="<?php esc_attr_e( 'Your licence key', 'wws' ); ?>"/>
-					<input type="submit" class="button button-primary">
+					<input type="text"
+							name="wws_licence"
+							placeholder="<?php esc_attr_e( 'Your licence key', 'wws' ); ?>"
+							aria-label="<?php esc_attr_e( 'Your licence key', 'wws' ); ?>"/>
+					<input type="submit"
+							class="button button-primary">
 				</p>
 			</form>
 		<?php endif; ?>
@@ -151,8 +172,10 @@ function wws_display_licence_notice() {
 	if ( ! empty( $_POST['wws_licence'] ) ) {
 		return;
 	}
+	if ( file_exists( WWS_PLUGIN_PATH . '/licence.txt' ) ) {
+		$licence_key = file_get_contents( WWS_PLUGIN_PATH . '/licence.txt' );
+	}
 
-	$licence_key        = file_get_contents( WWS_PLUGIN_PATH . '/licence.txt' );
 	$next_licence_check = new DateTime( 'now -7 days' );
 	if ( empty( $licence_key ) ) {
 		return wws_display_notice( __( 'Licence key for Worldline SIPS for WooCommerce is missing.', 'wws' ) );
@@ -167,6 +190,7 @@ function wws_display_licence_notice() {
 	}
 
 	update_option( 'wws_last_licence_check', gmdate( 'd-m-Y H:i:s' ) );
+
 	return;
 }
 
@@ -176,6 +200,7 @@ add_action( 'admin_notices', 'wws_display_licence_notice' );
  * Check if the licence is expired.
  *
  * @param string $licence_key Licence key.
+ *
  * @return bool
  */
 function wws_check_licence( $licence_key ) {
@@ -221,7 +246,15 @@ function wws_update_plugin() {
 	if ( ! wws_is_current_version_up_to_date() ) {
 		$licence_key = file_get_contents( WWS_PLUGIN_PATH . '/licence.txt' );
 		$url         = WWS_OFFICIAL_WEBSITE . 'download.php?licence_key=' . $licence_key;
-		return wws_display_notice( __( 'Worldline SIPS for WooCommerce is outdated. Please download the new version here:', 'wws' ) . ' <a href="' . $url . '" target="_blank">' . $url . '</a>', 'error', false );
+
+		return wws_display_notice(
+			__(
+				'Worldline SIPS for WooCommerce is outdated. Please download the new version here:',
+				'wws'
+			) . ' <a href="' . $url . '" target="_blank">' . $url . '</a>',
+			'error',
+			false
+		);
 	}
 	update_option( 'wws_last_version_check', gmdate( 'd-m-Y H:i:s' ) );
 }
