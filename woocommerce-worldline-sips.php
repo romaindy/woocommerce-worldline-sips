@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce Worldline Sips
  * Plugin URI: https://www.worldline-sips-woocommerce.com/
  * Description: Passerelle de paiement pour Worldline Sips 2.0 (Sherlock, Mercanet, Sogenactif, Scellius Net).
- * Version: 1.1.2
+ * Version: 1.1.3
  * Author: 21 Pixels
  * Author URI: https://www.21pixels.studio/
  *
@@ -24,7 +24,7 @@ if ( ! in_array(
 	die;
 }
 
-define( 'WWS_VERSION', '1.1.2' );
+define( 'WWS_VERSION', '1.1.3' );
 define( 'WWS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WWS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WWS_OFFICIAL_WEBSITE', 'https://www.worldline-sips-woocommerce.com/' );
@@ -121,7 +121,7 @@ function wws_display_notice( $notice, $type = 'error', $display_form = true ) {
 	?>
 	<div class="notice notice-<?php echo esc_attr( $type ); ?> is-dismissible">
 		<p>
-			<?php echo esc_html( $notice ); ?>
+			<?php echo $notice; ?>
 			<?php if ( $display_form ) : ?>
 				<a href="<?php echo esc_attr( WWS_OFFICIAL_WEBSITE ); ?>produit/renouvellement-de-licence/">
 					<?php
@@ -181,10 +181,8 @@ function wws_display_licence_notice() {
 		return;
 	}
 
-	if ( file_exists( WWS_PLUGIN_PATH . '/licence.txt' ) ) {
-		$filesystem  = new WP_Filesystem_Direct( true );
-		$licence_key = $filesystem->get_contents( WWS_PLUGIN_PATH . '/licence.txt' );
-	}
+	$filesystem  = new WP_Filesystem_Direct( true );
+	$licence_key = $filesystem->get_contents( WWS_PLUGIN_PATH . '/licence.txt' );
 
 	$next_licence_check = new DateTime( 'now -7 days' );
 	if ( empty( $licence_key ) ) {
@@ -245,7 +243,8 @@ function wws_update_plugin() {
 	}
 
 	if ( ! wws_is_current_version_up_to_date() ) {
-		$licence_key = wp_remote_get( WWS_PLUGIN_PATH . '/licence.txt' );
+		$filesystem  = new WP_Filesystem_Direct( true );
+		$licence_key = $filesystem->get_contents( WWS_PLUGIN_PATH . '/licence.txt' );
 		if ( ! $licence_key ) :
 			return;
 		endif;
