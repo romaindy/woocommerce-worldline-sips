@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce Worldline Sips
  * Plugin URI: https://www.worldline-sips-woocommerce.com/
  * Description: Passerelle de paiement pour Worldline Sips 2.0 (Sherlock, Mercanet, Sogenactif, Scellius Net).
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: 21 Pixels
  * Author URI: https://www.21pixels.studio/
  *
@@ -24,10 +24,17 @@ if ( ! in_array(
 	die;
 }
 
-define( 'WWS_VERSION', '1.1.1' );
+define( 'WWS_VERSION', '1.1.2' );
 define( 'WWS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WWS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WWS_OFFICIAL_WEBSITE', 'https://www.worldline-sips-woocommerce.com/' );
+
+if ( ! defined( 'FS_CHMOD_FILE' ) ) {
+	define( 'FS_CHMOD_FILE', 0644 );
+}
+
+require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
+require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
 
 /**
  * Enqueue styles and scripts.
@@ -117,13 +124,13 @@ function wws_display_notice( $notice, $type = 'error', $display_form = true ) {
 			<?php echo esc_html( $notice ); ?>
 			<?php if ( $display_form ) : ?>
 				<a href="<?php echo esc_attr( WWS_OFFICIAL_WEBSITE ); ?>produit/renouvellement-de-licence/">
-									<?php
-									esc_html_e(
-										'Renew my licence',
-										'wws'
-									);
-									?>
-						</a>
+					<?php
+					esc_html_e(
+						'Renew my licence',
+						'wws'
+					);
+					?>
+				</a>
 			<?php endif; ?>
 		</p>
 
@@ -153,7 +160,8 @@ function wws_display_notice( $notice, $type = 'error', $display_form = true ) {
 function wws_update_licence() {
 	if ( ! empty( $_POST['wws_licence'] ) ) {
 		if ( wp_is_uuid( $_POST['wws_licence'] ) && wws_check_licence( $_POST['wws_licence'] ) ) {
-			file_put_contents( WWS_PLUGIN_PATH . '/licence.txt', $_POST['wws_licence'] );
+			$filesystem = new WP_Filesystem_Direct( true );
+			$filesystem->put_contents( WWS_PLUGIN_PATH . '/licence.txt', $_POST['wws_licence'] );
 			wws_display_notice( __( 'Thank you. Your licence has been updated.', 'wws' ), 'success', false );
 		} else {
 			wws_display_notice( __( 'Licence not valid.', 'wws' ) );
@@ -161,7 +169,7 @@ function wws_update_licence() {
 	}
 }
 
-add_action( 'init', 'wws_update_licence' );
+add_action( 'admin_init', 'wws_update_licence' );
 
 /**
  * Check if the licence is valid.
@@ -172,8 +180,10 @@ function wws_display_licence_notice() {
 	if ( ! empty( $_POST['wws_licence'] ) ) {
 		return;
 	}
+
 	if ( file_exists( WWS_PLUGIN_PATH . '/licence.txt' ) ) {
-		$licence_key = file_get_contents( WWS_PLUGIN_PATH . '/licence.txt' );
+		$filesystem  = new WP_Filesystem_Direct( true );
+		$licence_key = $filesystem->get_contents( WWS_PLUGIN_PATH . '/licence.txt' );
 	}
 
 	$next_licence_check = new DateTime( 'now -7 days' );
@@ -190,8 +200,6 @@ function wws_display_licence_notice() {
 	}
 
 	update_option( 'wws_last_licence_check', gmdate( 'd-m-Y H:i:s' ) );
-
-	return;
 }
 
 add_action( 'admin_notices', 'wws_display_licence_notice' );
@@ -205,12 +213,10 @@ add_action( 'admin_notices', 'wws_display_licence_notice' );
  */
 function wws_check_licence( $licence_key ) {
 	$now = gmdate( 'Y-m-d H:i:s' );
-	$ch  = curl_init();
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-	curl_setopt( $ch, CURLOPT_URL, WWS_OFFICIAL_WEBSITE . 'wp-json/licence/v1/licence/' . $licence_key );
-	curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-	$data = json_decode( curl_exec( $ch ) );
-	curl_close( $ch );
+
+	$data = wp_remote_get( WWS_OFFICIAL_WEBSITE . 'wp-json/licence/v1/licence/' . $licence_key );
+
+	$data = json_decode( wp_remote_retrieve_body( $data ) );
 
 	return ! empty( $data->expire ) && $data->expire > $now;
 }
@@ -221,12 +227,8 @@ function wws_check_licence( $licence_key ) {
  * @return bool
  */
 function wws_is_current_version_up_to_date() {
-	$ch = curl_init();
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-	curl_setopt( $ch, CURLOPT_URL, WWS_OFFICIAL_WEBSITE . 'wp-json/licence/v1/version/' );
-	curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-	$data = json_decode( curl_exec( $ch ) );
-	curl_close( $ch );
+	$data = wp_remote_get( WWS_OFFICIAL_WEBSITE . 'wp-json/licence/v1/version/' );
+	$data = json_decode( wp_remote_retrieve_body( $data ) );
 
 	return ! empty( $data->data ) && ! empty( $data->data->version ) && WWS_VERSION === $data->data->version;
 }
@@ -238,14 +240,16 @@ function wws_is_current_version_up_to_date() {
  */
 function wws_update_plugin() {
 	$next_version_check = new DateTime( 'now -7 days' );
-
 	if ( get_option( 'wws_last_version_check', true ) > $next_version_check->format( 'Y-m-d H:i:s' ) ) {
 		return;
 	}
 
 	if ( ! wws_is_current_version_up_to_date() ) {
-		$licence_key = file_get_contents( WWS_PLUGIN_PATH . '/licence.txt' );
-		$url         = WWS_OFFICIAL_WEBSITE . 'download.php?licence_key=' . $licence_key;
+		$licence_key = wp_remote_get( WWS_PLUGIN_PATH . '/licence.txt' );
+		if ( ! $licence_key ) :
+			return;
+		endif;
+		$url = WWS_OFFICIAL_WEBSITE . 'download.php?licence_key=' . $licence_key;
 
 		return wws_display_notice(
 			__(
@@ -256,7 +260,7 @@ function wws_update_plugin() {
 			false
 		);
 	}
-	update_option( 'wws_last_version_check', gmdate( 'd-m-Y H:i:s' ) );
+	update_option( 'wws_last_version_check', gmdate( 'Y-m-d H:i:s' ) );
 }
 
 add_action( 'init', 'wws_update_plugin' );
