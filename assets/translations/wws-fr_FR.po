@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: WooCommerce Worldline Sips\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-"
 "worldline-sips\n"
-"POT-Creation-Date: 2024-04-08 20:48+0200\n"
-"PO-Revision-Date: 2024-04-08 20:48+0200\n"
+"POT-Creation-Date: 2025-02-24 12:07+0100\n"
+"PO-Revision-Date: 2025-02-24 12:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -16,7 +16,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.1\n"
 "X-Domain: woocommerce-worldline-sips\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr__;esc_attr_e;"
+"_x:1,2c;_ex:1,2c;esc_html_x:1,2c;esc_attr_x:1,2c;_n:1,2;_nx:1,2,3c;"
+"_n_noop:1,2;_nx_noop:1,2,3c\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: node_modules\n"
@@ -153,27 +155,55 @@ msgstr ""
 "Ce réglage est disponible sur votre interface Worldline. Si vous n’êtes pas "
 "sûr, laissez cette case décochée."
 
-#: woocommerce-worldline-sips.php:76
+#: payment-iframe.php:29
+msgid "Worldline SIPS for WooCommerce hasn't been configured yet."
+msgstr "Worldline SIPS pour WooCommerce n'a pas encore été configuré."
+
+#: payment-iframe.php:145 payment-iframe.php:156
+msgid ""
+"Error: an error occurred. Please check your Merchant ID, your private key "
+"and your key version."
+msgstr ""
+"Erreur : une erreur s'est produite. Veuillez vérifier votre ID Marchand, "
+"votre clé privée et la version de votre clé."
+
+#: payment-iframe.php:150 payment-iframe.php:161
+msgid "Technical details:"
+msgstr "Détails techniques :"
+
+#: payment-iframe.php:177
+msgid "Click here to continue"
+msgstr "Cliquez ici pour continuer"
+
+#: woocommerce-worldline-sips.php:90
 msgid "Configure"
 msgstr "Configurer"
 
-#: woocommerce-worldline-sips.php:136
+#: woocommerce-worldline-sips.php:129
+msgid "Renew my licence"
+msgstr "Renouveler ma licence"
+
+#: woocommerce-worldline-sips.php:143 woocommerce-worldline-sips.php:144
+msgid "Your licence key"
+msgstr "Votre clé de licence"
+
+#: woocommerce-worldline-sips.php:165
 msgid "Thank you. Your licence has been updated."
 msgstr "Merci. Votre licence a été mise à jour."
 
-#: woocommerce-worldline-sips.php:138
+#: woocommerce-worldline-sips.php:167
 msgid "Licence not valid."
 msgstr "Licence non valide."
 
-#: woocommerce-worldline-sips.php:158
+#: woocommerce-worldline-sips.php:191
 msgid "Licence key for Worldline SIPS for WooCommerce is missing."
 msgstr "La clé de licence pour Worldline SIPS for WooCommerce est manquante."
 
-#: woocommerce-worldline-sips.php:166
+#: woocommerce-worldline-sips.php:199
 msgid "Your licence key for Worldline SIPS for WooCommerce has expired."
 msgstr "Votre clé de licence pour Worldline SIPS for WooCommerce a expiré."
 
-#: woocommerce-worldline-sips.php:224
+#: woocommerce-worldline-sips.php:256
 msgid ""
 "Worldline SIPS for WooCommerce is outdated. Please download the new version "
 "here:"
@@ -183,28 +213,6 @@ msgstr ""
 
 #~ msgid "Place order"
 #~ msgstr "Commander"
-
-#~ msgid "Worldline SIPS for WooCommerce hasn't been configured yet."
-#~ msgstr "Worldline SIPS pour WooCommerce n'a pas encore été configuré."
-
-#~ msgid ""
-#~ "Error: an error occurred. Please check your Merchant ID, your private key "
-#~ "and your key version."
-#~ msgstr ""
-#~ "Erreur : une erreur s'est produite. Veuillez vérifier votre ID Marchand, "
-#~ "votre clé privée et la version de votre clé."
-
-#~ msgid "Technical details:"
-#~ msgstr "Détails techniques :"
-
-#~ msgid "Click here to continue"
-#~ msgstr "Cliquez ici pour continuer"
-
-#~ msgid "Renew my licence"
-#~ msgstr "Renouveler ma licence"
-
-#~ msgid "Your licence key"
-#~ msgstr "Votre clé de licence"
 
 #~ msgid "Display cards icons"
 #~ msgstr "Afficher les icônes de cartes"
