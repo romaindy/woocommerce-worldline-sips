@@ -199,7 +199,7 @@ function wws_display_licence_notice() {
 		return wws_display_notice( __( 'Your licence key for Worldline SIPS for WooCommerce has expired.', 'wws' ) );
 	}
 
-	update_option( 'wws_last_licence_check', gmdate( 'd-m-Y H:i:s' ) );
+	update_option( 'wws_last_licence_check', gmdate( 'Y-m-d H:i:s' ) );
 }
 
 add_action( 'admin_notices', 'wws_display_licence_notice' );
